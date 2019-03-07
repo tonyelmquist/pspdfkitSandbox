@@ -78,7 +78,19 @@ function load(pdfArrayBuffers) {
         "annotations.change",
         createOnAnnotationsChange()
       );
-    })
+      instance.getFormFields().then(function(formFields) {
+      
+        // Update the value of all text form fields
+        var updatedFormFieldValues = {};
+        formFields.forEach(function(formField) {
+          console.log(formField.name);
+          if (formField instanceof PSPDFKit.FormFields.TextFormField) {
+            updatedFormFieldValues[formField.name] = "New Value";
+          }
+          updatedFormFieldValues['borough'] = "Brooklyn";
+        });
+        instance.setFormFieldValues(updatedFormFieldValues);
+    })})
     .catch(console.error);
 }
 
